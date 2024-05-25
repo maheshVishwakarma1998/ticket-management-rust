@@ -1,4 +1,4 @@
-# E-Ticketer-ICP
+# Ticket-Management-Rust
 
 ## Overview
 
