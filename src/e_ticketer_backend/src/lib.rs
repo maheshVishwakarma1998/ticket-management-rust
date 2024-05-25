@@ -175,6 +175,14 @@ fn _get_event(id: &u64) -> Option<Event> {
 
 #[ic_cdk::update]
 fn create_event(payload: EventPayload) -> Result<Event, Error> {
+
+    / Ensure input fields are not empty or invalid
+    if payload.name.is_empty() || payload.description.is_empty() || payload.date.is_empty() || payload.start_time.is_empty() || payload.location.is_empty() {
+        return Err(Error::InvalidInput {
+            msg: "Some fields are empty or invalid".to_string(),
+        });
+    }
+
     // Increment the global ID counter to get a new ID for the event
     let id = ID_COUNTER
         .with(|counter| {
@@ -208,6 +216,13 @@ fn create_event(payload: EventPayload) -> Result<Event, Error> {
 
 #[ic_cdk::update]
 fn update_event(id: u64, payload: EventPayload) -> Result<Event, Error> {
+    / Ensure input fields are not empty or invalid
+    if payload.name.is_empty() || payload.description.is_empty() || payload.date.is_empty() || payload.start_time.is_empty() || payload.location.is_empty() {
+        return Err(Error::InvalidInput {
+            msg: "Some fields are empty or invalid".to_string(),
+        });
+    }
+
     // Retrieve the existing event with the given ID, or return a NotFound error if not found
     let event = _get_event(&id).ok_or(Error::NotFound {
         msg: format!("event id:{} does not exist", id),
@@ -268,6 +283,14 @@ fn _get_user(id: &u64) -> Option<User> {
 
 #[ic_cdk::update]
 fn create_user(payload: UserPayload) -> Result<User, Error> {
+
+    / Ensure input fields are not empty or invalid
+    if payload.name.is_empty() || payload.email.is_empty() || payload.password.is_empty() {
+        return Err(Error::InvalidInput {
+            msg: "Some fields are empty or invalid".to_string(),
+        });
+    }
+
     // Increment the global ID counter to get a new ID for the user
     let id = ID_COUNTER
         .with(|counter| {
@@ -299,6 +322,14 @@ fn create_user(payload: UserPayload) -> Result<User, Error> {
 
 #[ic_cdk::update]
 fn update_user(id: u64, payload: UserPayload) -> Result<User, Error> {
+
+    / Ensure input fields are not empty or invalid
+    if payload.name.is_empty() || payload.email.is_empty() || payload.password.is_empty() {
+        return Err(Error::InvalidInput {
+            msg: "Some fields are empty or invalid".to_string(),
+        });
+    }
+
     // Retrieve the existing user with the given ID, or return a NotFound error if not found
     let user = _get_user(&id).ok_or(Error::NotFound {
         msg: format!("user id:{} does not exist", id),
